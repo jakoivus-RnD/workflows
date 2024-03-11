@@ -2,9 +2,13 @@ name: Hello world action
 
 on: [push, workflow_call]
   # - workflow_call:
-jobs:
-  hello-world-job:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello, world!"
-      # Use the output from the `hello` step
+runs:
+  using: "composite"
+  steps:
+    - name: Hello
+      run: echo "Hello, world!"
+      id: hello
+    - name: World
+      run: echo "Hello, world!"
+      if: steps.hello.outputs.hello == 'Hello, world!'
+
